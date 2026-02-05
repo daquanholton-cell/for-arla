@@ -14,16 +14,26 @@ body{
   justify-content:center;
   align-items:center;
   height:100vh;
+  overflow:hidden;
   text-align:center;
 }
+
 .card{
   background:white;
   width:90%;
   max-width:380px;
   padding:30px 20px;
   border-radius:26px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.15);
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+  animation: popIn 0.6s ease;
 }
+
+@keyframes popIn{
+  0%{transform:scale(0.6);opacity:0}
+  70%{transform:scale(1.1)}
+  100%{transform:scale(1);opacity:1}
+}
+
 button{
   width:85%;
   padding:16px;
@@ -33,14 +43,33 @@ button{
   margin:10px auto;
   display:block;
 }
-#yes{background:#ff4d6d;color:white;}
-#no{background:#f2f2f2;color:#555;}
-.ending-img{
-  width:85%;
-  max-width:320px;
-  margin:20px auto;
-  border-radius:22px;
-  box-shadow:0 10px 20px rgba(0,0,0,0.2);
+
+#yes{
+  background:#ff4d6d;
+  color:white;
+  animation:bounce 1.4s infinite;
+}
+
+@keyframes bounce{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.08)}
+}
+
+#no{
+  background:#f2f2f2;
+  color:#555;
+}
+
+.heart{
+  position:absolute;
+  bottom:-20px;
+  font-size:22px;
+  animation:floatUp 4s linear infinite;
+}
+
+@keyframes floatUp{
+  0%{transform:translateY(0);opacity:1}
+  100%{transform:translateY(-110vh);opacity:0}
 }
 </style>
 </head>
@@ -56,24 +85,59 @@ button{
 <script>
 let yesSize = 1;
 let noSize = 1;
+const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("no");
+const text = document.getElementById("text");
 
-document.getElementById("no").onclick = () => {
+const messages = [
+  "Are you sure? 🥺",
+  "Pretty please? 💗",
+  "I promise cuddles 🧸",
+  "And chocolate 🍫",
+  "Okay last one 😘"
+];
+let i = 0;
+
+noBtn.onclick = () => {
   yesSize += 0.25;
   noSize -= 0.12;
-  document.getElementById("yes").style.transform = "scale(" + yesSize + ")";
-  document.getElementById("no").style.transform = "scale(" + Math.max(noSize,0.4) + ")";
+  yesBtn.style.transform = `scale(${yesSize})`;
+  noBtn.style.transform = `scale(${Math.max(noSize,0.4)})`;
+  text.textContent = messages[Math.min(i, messages.length - 1)];
+  i++;
 };
 
-document.getElementById("yes").onclick = () => {
-  document.body.innerHTML =
-    '<div style="height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;background:linear-gradient(135deg,#ffd6e8,#ffeef6);text-align:center;padding:20px;">' +
-    '<h1 style="font-size:30px;">Yayyy Arla!!! 💕🥰</h1>' +
-    '<p style="font-size:18px;">You just made my heart so happy 💘</p>' +
-    '<img src="Princess.webp.WEBP" class="ending-img" alt="Princess and the Frog">' +
-    '<p style="font-size:16px;">Happily ever after ✨</p>' +
-    '<p style="font-size:16px;">Love, Daquan 💖</p>' +
-    '</div>';
+yesBtn.onclick = () => {
+  document.body.innerHTML = `
+    <div style="
+      height:100vh;
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      background:linear-gradient(135deg,#ffd6e8,#ffeef6);
+      animation:popIn 0.6s ease;
+    ">
+      <h1 style="font-size:32px;">Yayyy Arla!!! 💕🐸</h1>
+      <p style="font-size:18px;">Happily ever after ✨</p>
+      <p style="font-size:16px;">Love, Daquan 💖</p>
+    </div>
+  `;
+  startHearts();
 };
+
+function startHearts(){
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.textContent = "💖";
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.animationDuration = (3 + Math.random()*2) + "s";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),5000);
+  }, 300);
+}
 </script>
 
 </body>
