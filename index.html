@@ -100,9 +100,44 @@
     text.textContent = messages[Math.min(i, messages.length - 1)];
     i++;
   };
+yesBtn.onclick = () => {
+  document.body.innerHTML = `
+    <div style="
+      height:100vh;
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      background:linear-gradient(135deg,#ffd6e8,#ffeef6);
+      text-align:center;
+      padding:20px;
+    ">
+      <h1 style="font-size:30px;">Yayyy Arla!!! 💕🥰</h1>
 
-  yesBtn.onclick = () => {
-    document.body.innerHTML = `
+      <p style="font-size:18px;">
+        You just made my heart so happy 💘
+      </p>
+
+      <img 
+        src="Princess.webp.WEBP"
+        alt="Princess and the Frog"
+        style="
+          width:85%;
+          max-width:320px;
+          margin:20px auto;
+          border-radius:22px;
+          box-shadow:0 10px 20px rgba(0,0,0,0.2);
+          display:block;
+        "
+      />
+
+      <p style="font-size:16px;">Happily ever after ✨</p>
+      <p style="font-size:16px;">Love, Daquan 💖</p>
+    </div>
+  `;
+};
+  
       <div style="
         height:100vh;
         width:100%;
